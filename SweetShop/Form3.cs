@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace SweetShop
 {
@@ -18,14 +19,20 @@ namespace SweetShop
             InitializeComponent();
         }
 
+        public string stringConnection()
+        {
+            ConnectionStringSettings connectString;
+            connectString = ConfigurationManager.ConnectionStrings["SweetShop.Properties.Settings.DB_SWEET_SHOPConnectionString"];
+
+            return connectString.ConnectionString;
+        }
         public Form3(string orderNumber)
         {
             InitializeComponent();
-            string stringConnect = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DB_SWEET_SHOP;Integrated Security=True";
             label10.Text = orderNumber;
             try
             {
-                using (SqlConnection connect = new SqlConnection(stringConnect))
+                using (SqlConnection connect = new SqlConnection(stringConnection()))
                 {
                     connect.Open();
                     string SqlExpression = "EXEC DessertMenu";
@@ -62,10 +69,9 @@ namespace SweetShop
         private void button4_Click(object sender, EventArgs e)
         {
             string clientid = label10.Text;
-            string stringConnect = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DB_SWEET_SHOP;Integrated Security=True";
             try
             {
-                using (SqlConnection connect = new SqlConnection(stringConnect))
+                using (SqlConnection connect = new SqlConnection(stringConnection()))
                 {
                     connect.Open();
                     string sqlRequest = $"EXEC DeleteClient'{clientid}'";
@@ -88,7 +94,6 @@ namespace SweetShop
             string clientid = label10.Text;
             string dessertid = textBox4.Text;
 
-            string stringConnect = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DB_SWEET_SHOP;Integrated Security=True";
             if (dessertid == "")
             {
                 MessageBox.Show("Вы не ввели индекс");
@@ -97,7 +102,7 @@ namespace SweetShop
             {
                 try
                 {
-                    using (SqlConnection connect = new SqlConnection(stringConnect))
+                    using (SqlConnection connect = new SqlConnection(stringConnection()))
                     {
 
                         connect.Open();
@@ -197,7 +202,6 @@ namespace SweetShop
             string clientid = label10.Text;
             string dessertid = textBox5.Text;
 
-            string stringConnect = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DB_SWEET_SHOP;Integrated Security=True";
             if (dessertid == "")
             {
                 MessageBox.Show("Вы не ввели индекс");
@@ -206,7 +210,7 @@ namespace SweetShop
             {
                 try
                 {
-                    using (SqlConnection connect = new SqlConnection(stringConnect))
+                    using (SqlConnection connect = new SqlConnection(stringConnection()))
                     {
 
                         connect.Open();
@@ -311,7 +315,6 @@ namespace SweetShop
         private void button1_Click(object sender, EventArgs e)
         {
             string clientid = label10.Text;
-            string stringConnect = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DB_SWEET_SHOP;Integrated Security=True";
 
             if (textBox1.Text == "" || textBox2.Text == "" || textBox3.Text == "")
             {
@@ -322,7 +325,7 @@ namespace SweetShop
                 string sqlExpression = "OrdersThereIs";
                 try
                 {
-                    using (SqlConnection connect = new SqlConnection(stringConnect))
+                    using (SqlConnection connect = new SqlConnection(stringConnection()))
                     {
                         connect.Open();
                         SqlCommand command = new SqlCommand(sqlExpression, connect);

@@ -8,18 +8,25 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace SweetShop
 {
     public partial class Form6 : Form
     {
+        public string stringConnection()
+        {
+            ConnectionStringSettings connectString;
+            connectString = ConfigurationManager.ConnectionStrings["SweetShop.Properties.Settings.DB_SWEET_SHOPConnectionString"];
+
+            return connectString.ConnectionString;
+        }
         public Form6()
         {
             InitializeComponent();
-            string stringConnect = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DB_SWEET_SHOP;Integrated Security=True";
             try
             {
-                using (SqlConnection connect = new SqlConnection(stringConnect))
+                using (SqlConnection connect = new SqlConnection(stringConnection()))
                 {
                     connect.Open();
                     string query = "SELECT * FROM EmployeesView";
@@ -61,7 +68,6 @@ namespace SweetShop
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string stringConnect = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DB_SWEET_SHOP;Integrated Security=True";
             string lastName = textBox1.Text;
             string firstName = textBox2.Text;
             string middleName = textBox3.Text;
@@ -94,7 +100,7 @@ namespace SweetShop
                 string sqlExpression = $"EXEC dbo.AddEmployee'{lastName}','{firstName}','{middleName}','{age}','{experience}','{post}','{passwordEmp}'";
                 try
                 {
-                    using (SqlConnection connect = new SqlConnection(stringConnect))
+                    using (SqlConnection connect = new SqlConnection(stringConnection()))
                     {
                         connect.Open();
                         SqlCommand command = new SqlCommand(sqlExpression, connect);
@@ -141,7 +147,6 @@ namespace SweetShop
 
         private void button3_Click(object sender, EventArgs e)
         {
-            string stringConnect = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DB_SWEET_SHOP;Integrated Security=True";
             string idEmp = textBox8.Text;
             if (idEmp == "")
             {
@@ -151,7 +156,7 @@ namespace SweetShop
             {
                 try
                 {
-                    using (SqlConnection connect = new SqlConnection(stringConnect))
+                    using (SqlConnection connect = new SqlConnection(stringConnection()))
                     {
                         string sqlExpr = "CheckEmp";
                         connect.Open();
@@ -266,8 +271,6 @@ namespace SweetShop
             string post = textBox13.Text;
             string pass = textBox14.Text;
             string id = textBox10.Text;
-            string stringConnect = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DB_SWEET_SHOP;Integrated Security=True";
-
             if (lastName == "" && post == "" && pass == "")
             {
                 MessageBox.Show("Введите данные, которые хотите изменить");
@@ -279,7 +282,7 @@ namespace SweetShop
             {
                 try
                 {
-                    using (SqlConnection connect = new SqlConnection(stringConnect))
+                    using (SqlConnection connect = new SqlConnection(stringConnection()))
                     {
                         string sqlExpr = "CheckEmp";
                         connect.Open();

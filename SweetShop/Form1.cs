@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace SweetShop
 {
@@ -20,9 +21,17 @@ namespace SweetShop
             InitializeComponent();
         }
 
+        public string stringConnection()
+        {
+            ConnectionStringSettings connectString;
+            connectString = ConfigurationManager.ConnectionStrings["SweetShop.Properties.Settings.DB_SWEET_SHOPConnectionString"];
+            
+            return connectString.ConnectionString;
+        }
+
         private void button3_Click(object sender, EventArgs e)
         {
-            string stringConnect = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DB_SWEET_SHOP;Integrated Security=True";
+            string stringConnect = stringConnection();
 
             string orderNumberString = textBox1.Text;
             if (orderNumberString == "")
@@ -72,10 +81,9 @@ namespace SweetShop
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string stringConnect = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DB_SWEET_SHOP;Integrated Security=True";
             try
             {
-                using (SqlConnection connect = new SqlConnection(stringConnect))
+                using (SqlConnection connect = new SqlConnection(stringConnection()))
                 {
                     connect.Open();
                     string sqlExpression = "AddClient";

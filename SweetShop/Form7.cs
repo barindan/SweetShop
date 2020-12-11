@@ -8,18 +8,25 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace SweetShop
 {
     public partial class Form7 : Form
     {
+        public string stringConnection()
+        {
+            ConnectionStringSettings connectString;
+            connectString = ConfigurationManager.ConnectionStrings["SweetShop.Properties.Settings.DB_SWEET_SHOPConnectionString"];
+
+            return connectString.ConnectionString;
+        }
         public Form7()
         {
             InitializeComponent();
-            string stringConnect = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DB_SWEET_SHOP;Integrated Security=True";
             try
             {
-                using (SqlConnection connect = new SqlConnection(stringConnect))
+                using (SqlConnection connect = new SqlConnection(stringConnection()))
                 {
                     connect.Open();
                     string query = "SELECT * FROM MenuForChef";
@@ -98,7 +105,6 @@ namespace SweetShop
         private void button5_Click(object sender, EventArgs e)
         {
             //Изменение состава
-            string stringConnect = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DB_SWEET_SHOP;Integrated Security=True";
             string id = textBox13.Text;
             string compos = textBox8.Text;
             string cal = textBox9.Text;
@@ -110,7 +116,7 @@ namespace SweetShop
             {
                 try
                 {
-                    using (SqlConnection connect = new SqlConnection(stringConnect))
+                    using (SqlConnection connect = new SqlConnection(stringConnection()))
                     {
                         connect.Open();
                         //Проверка id состава
@@ -176,7 +182,6 @@ namespace SweetShop
         private void button3_Click(object sender, EventArgs e)
         {
             //Добавление десерта
-            string stringConnect = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DB_SWEET_SHOP;Integrated Security=True";
             string dessertName = textBox2.Text;
             string compositionId = textBox3.Text;
             string costPrice = textBox4.Text;
@@ -193,7 +198,7 @@ namespace SweetShop
                 
                 try
                 {
-                    using (SqlConnection connect = new SqlConnection(stringConnect)) 
+                    using (SqlConnection connect = new SqlConnection(stringConnection())) 
                     {
                         
                         connect.Open();
@@ -242,7 +247,6 @@ namespace SweetShop
         private void button2_Click(object sender, EventArgs e)
         {
             //Удаление десерта
-            string stringConnect = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DB_SWEET_SHOP;Integrated Security=True";
             string id = textBox1.Text;
             if (id == "")
             {
@@ -252,7 +256,7 @@ namespace SweetShop
             {
                 try
                 {
-                    using (SqlConnection connect = new SqlConnection(stringConnect))
+                    using (SqlConnection connect = new SqlConnection(stringConnection()))
                     {
                         connect.Open();
                         //Проверка id дессерта
@@ -319,7 +323,6 @@ namespace SweetShop
         private void button4_Click(object sender, EventArgs e)
         {
             //Добавление состава
-            string stringConnect = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DB_SWEET_SHOP;Integrated Security=True";
             string composit = textBox6.Text;
             string calorie = textBox7.Text;
             if (composit == "" || calorie == "")
@@ -330,7 +333,7 @@ namespace SweetShop
             {
                 try
                 {
-                    using (SqlConnection connect = new SqlConnection(stringConnect))
+                    using (SqlConnection connect = new SqlConnection(stringConnection()))
                     {
 
                         connect.Open();
@@ -375,7 +378,6 @@ namespace SweetShop
         {
             //Удаление состава
             string id = textBox10.Text;
-            string stringConnect = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DB_SWEET_SHOP;Integrated Security=True";
             if (id == "")
             {
                 MessageBox.Show("Введите ID состава");
@@ -384,7 +386,7 @@ namespace SweetShop
             {
                 try
                 {
-                    using (SqlConnection connect = new SqlConnection(stringConnect))
+                    using (SqlConnection connect = new SqlConnection(stringConnection()))
                     {
                         connect.Open();
                         //Проверка id состава
@@ -447,7 +449,6 @@ namespace SweetShop
         private void button7_Click(object sender, EventArgs e)
         {
             string id = textBox12.Text;
-            string stringConnect = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DB_SWEET_SHOP;Integrated Security=True";
             if (id == "")
             {
                 MessageBox.Show("Введите ID заказа");
@@ -460,7 +461,7 @@ namespace SweetShop
                 string sqlExpression = "CheckOrderForChef";
                 try
                 {
-                    using (SqlConnection connect = new SqlConnection(stringConnect))
+                    using (SqlConnection connect = new SqlConnection(stringConnection()))
                     {
                         connect.Open();
                         SqlCommand command = new SqlCommand(sqlExpression, connect);
@@ -523,7 +524,6 @@ namespace SweetShop
         private void button8_Click(object sender, EventArgs e)
         {
             string id = textBox11.Text;
-            string stringConnect = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DB_SWEET_SHOP;Integrated Security=True";
             if (id == "")
             {
                 MessageBox.Show("Введите ID заказа");
@@ -537,7 +537,7 @@ namespace SweetShop
                 string sqlExpression = "CheckOrderInCTE";
                 try
                 {
-                    using (SqlConnection connect = new SqlConnection(stringConnect))
+                    using (SqlConnection connect = new SqlConnection(stringConnection()))
                     {
                         connect.Open();
                         SqlCommand command = new SqlCommand(sqlExpression, connect);

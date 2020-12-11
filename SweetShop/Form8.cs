@@ -8,18 +8,25 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace SweetShop
 {
     public partial class Form8 : Form
     {
+        public string stringConnection()
+        {
+            ConnectionStringSettings connectString;
+            connectString = ConfigurationManager.ConnectionStrings["SweetShop.Properties.Settings.DB_SWEET_SHOPConnectionString"];
+
+            return connectString.ConnectionString;
+        }
         public Form8()
         {
             InitializeComponent();
-            string stringConnect = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DB_SWEET_SHOP;Integrated Security=True";
             try
             {
-                using (SqlConnection connect = new SqlConnection(stringConnect))
+                using (SqlConnection connect = new SqlConnection(stringConnection()))
                 {
                     connect.Open();
                     string query = "SELECT * FROM MenuForChef";
@@ -80,7 +87,6 @@ namespace SweetShop
         private void button2_Click(object sender, EventArgs e)
         {
             string id = textBox1.Text;
-            string stringConnect = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DB_SWEET_SHOP;Integrated Security=True";
             if (id == "")
             {
                 MessageBox.Show("Введите ID заказа");
@@ -94,7 +100,7 @@ namespace SweetShop
                 string sqlExpression = "CheckOrderForChef";
                 try
                 {
-                    using (SqlConnection connect = new SqlConnection(stringConnect))
+                    using (SqlConnection connect = new SqlConnection(stringConnection()))
                     {
                         connect.Open();
                         SqlCommand command = new SqlCommand(sqlExpression, connect);

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace SweetShop
 {
@@ -18,14 +19,21 @@ namespace SweetShop
             InitializeComponent();
         }
 
+        public string stringConnection()
+        {
+            ConnectionStringSettings connectString;
+            connectString = ConfigurationManager.ConnectionStrings["SweetShop.Properties.Settings.DB_SWEET_SHOPConnectionString"];
+
+            return connectString.ConnectionString;
+        }
+
         public Form2(string orderNumber)
         {
             InitializeComponent();
             label2.Text = orderNumber;
-            string stringConnect = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DB_SWEET_SHOP;Integrated Security=True";
             
             try {
-                using (SqlConnection connect = new SqlConnection(stringConnect))
+                using (SqlConnection connect = new SqlConnection(stringConnection()))
                 {
                     connect.Open();
                     string query = $"EXEC GetOrderInfo'{orderNumber}'";
@@ -101,10 +109,9 @@ namespace SweetShop
             string orderNumber = label2.Text;
             if (textBox2.Text == "Готово")
             {
-                string stringConnect = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DB_SWEET_SHOP;Integrated Security=True";
                 try
                 {
-                    using (SqlConnection connect = new SqlConnection(stringConnect))
+                    using (SqlConnection connect = new SqlConnection(stringConnection()))
                     {
                         connect.Open();
                         string sqlRequest = $"EXEC DeleteClient'{orderNumber}'";
