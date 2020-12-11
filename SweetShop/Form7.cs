@@ -207,9 +207,14 @@ namespace SweetShop
             string compositionId = textBox3.Text;
             string costPrice = textBox4.Text;
             string price = textBox5.Text;
-            string productDate = dateTimePicker1.Value.ToString();
-            string shelfDate = dateTimePicker2.Value.ToString();
-            
+            string[] dateProduct = dateTimePicker1.Value.ToString().Split(new Char[] { ' ' });
+            string[] dateShelf = dateTimePicker2.Value.ToString().Split(new Char[] { ' ' });
+
+            string[] productDate = dateProduct[0].Split(new Char[] {'.'});
+            string[] shelfDate = dateShelf[0].Split(new Char[] { '.' });
+            string d1 = productDate[1] + '.' + productDate[0] + '.' + productDate[2];
+            string d2 = shelfDate[1] + '.' + shelfDate[0] + '.' + shelfDate[2];
+
             if (dessertName == "" || compositionId == "" || costPrice == "" || price=="")
             {
                 MessageBox.Show("Заполните все поля");
@@ -223,7 +228,7 @@ namespace SweetShop
                     {
                         
                         connect.Open();
-                        string sqlRequest = $"EXEC AddDessert'{dessertName}','{compositionId}','{price}','{costPrice}','{productDate}','{shelfDate}'";
+                        string sqlRequest = $"EXEC AddDessert'{dessertName}','{compositionId}','{price}','{costPrice}','{d1}','{d2}'";
                         SqlCommand updAll = new SqlCommand(sqlRequest, connect);
                         updAll.ExecuteNonQuery();
 
@@ -378,9 +383,8 @@ namespace SweetShop
 
                         readerEmp.Close();
 
-                        textBox13.Clear();
-                        textBox8.Clear();
-                        textBox9.Clear();
+                        textBox6.Clear();
+                        textBox7.Clear();
 
                         foreach (string[] s in dataEmp)
                             dataGridView2.Rows.Add(s);
