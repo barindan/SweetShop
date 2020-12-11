@@ -68,6 +68,27 @@ namespace SweetShop
                     foreach (string[] s in dataOrder)
                         dataGridView2.Rows.Add(s);
 
+                    string sqlQuery = "SELECT * FROM AllOrders";
+                    SqlCommand allOrderView = new SqlCommand(sqlQuery, connect);
+                    SqlDataReader readerAllOrder = allOrderView.ExecuteReader();
+                    List<string[]> listOrder = new List<string[]>();
+
+                    while (readerAllOrder.Read())
+                    {
+                        listOrder.Add(new string[5]);
+
+                        listOrder[listOrder.Count - 1][0] = readerAllOrder[0].ToString();
+                        listOrder[listOrder.Count - 1][1] = readerAllOrder[1].ToString();
+                        listOrder[listOrder.Count - 1][2] = readerAllOrder[2].ToString();
+                        listOrder[listOrder.Count - 1][3] = readerAllOrder[3].ToString();
+                        listOrder[listOrder.Count - 1][4] = readerAllOrder[4].ToString();
+
+                    }
+                    readerAllOrder.Close();
+
+                    foreach (string[] s in listOrder)
+                        dataGridView3.Rows.Add(s);
+
                     connect.Close();
                 }
             }
@@ -127,6 +148,7 @@ namespace SweetShop
                             updateOrderStatus.ExecuteNonQuery();
 
                             dataGridView2.Rows.Clear();
+                            dataGridView3.Rows.Clear();
 
                             string sqlRequest = "SELECT * FROM OrdersForChef";
                             SqlCommand getOrder = new SqlCommand(sqlRequest, connect);
@@ -144,6 +166,27 @@ namespace SweetShop
                             readerOrder.Close();
                             foreach (string[] s in dataOrder)
                                 dataGridView2.Rows.Add(s);
+
+                            string sqlQuery = "SELECT * FROM AllOrders";
+                            SqlCommand allOrderView = new SqlCommand(sqlQuery, connect);
+                            SqlDataReader readerAllOrder = allOrderView.ExecuteReader();
+                            List<string[]> listOrder = new List<string[]>();
+
+                            while (readerAllOrder.Read())
+                            {
+                                listOrder.Add(new string[5]);
+
+                                listOrder[listOrder.Count - 1][0] = readerAllOrder[0].ToString();
+                                listOrder[listOrder.Count - 1][1] = readerAllOrder[1].ToString();
+                                listOrder[listOrder.Count - 1][2] = readerAllOrder[2].ToString();
+                                listOrder[listOrder.Count - 1][3] = readerAllOrder[3].ToString();
+                                listOrder[listOrder.Count - 1][4] = readerAllOrder[4].ToString();
+
+                            }
+                            readerAllOrder.Close();
+
+                            foreach (string[] s in listOrder)
+                                dataGridView3.Rows.Add(s);
 
                             textBox1.Clear();
                         }
